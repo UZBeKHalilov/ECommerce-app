@@ -1,0 +1,38 @@
+<div class="container py-4">
+    <div class="row mb-3">
+        <div class="col-12 d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-success" [class.active]="selectedCategoryId === null"
+                (click)="onCategorySelect(null)">
+                All Categories
+            </button>
+            @for (category of categories; track $index) {
+                <button class="btn btn-outline-success"
+                    [class.active]="selectedCategoryId === category.id" (click)="onCategorySelect(category.id)">
+                    {{ category.name }}
+                </button>
+            }
+        </div>
+    </div>
+
+    @if(loading) {
+        <div class="text-center text-success">Loading products...</div>
+    }
+    
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @for (product of products; track $index) {
+            <div class="col">
+                <div class="card h-100 text-light">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-success">{{ product.description }}</p>
+                        <p class="card-text"><strong>Price: </strong>$ {{ product.price }}</p>
+                        <p class="card-text">
+                            <small class="text-muted">Stock: {{ product.stock }}</small>
+                        </p>
+                        <button class="btn btn-success" [disabled]="product.stock === 0">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="container py-4">
+    <h3>Manage Categories</h3>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mb-4">
+      <div class="mb-3">
+        <input type="text" formControlName="name" class="form-control" placeholder="Category Name" />
+      </div>
+      <div class="mb-3">
+        <textarea formControlName="description" class="form-control" placeholder="Description"></textarea>
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="form.invalid">Add Category</button>
+    </form>
+    @if (error) {
+        <p class="text-danger">{{ error }}</p>
+    }
+  
+    <ul class="list-group list-group-flush">
+        @for (category of categories; track $index) {
+            <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-light">
+              {{ category.name }} 
+              <button class="btn btn-link btn-delete" (click)="deleteCategory(category.id)">Delete</button>
+            </li>
+        }
+    </ul>
+  </div>

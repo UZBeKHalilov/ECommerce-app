@@ -37,6 +37,24 @@ yarn-error.log
 testem.log
 /typings
 
+# Proxy configuration
+# proxy.conf.json
+
+# Environment files
+src/environments/*.ts
+!src/environments/environment.prod.ts
+
 # System files
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*.orig
+*.rej
+*.vsdix

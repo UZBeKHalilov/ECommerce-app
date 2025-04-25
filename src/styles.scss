@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+/* Global Gradient Background */
+body {
+    background: linear-gradient(135deg, #002200, #004400);
+    color: #e0f0d9; /* Light green text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  a {
+    color: #8fbc8f;
+    transition: color 0.3s ease;
+    &:hover {
+      color: #d0f0c0;
+    }
+  }
+  
+  /* Cards */
+  .card {
+    background: #0a1a0a;
+    border-radius: 10px;
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px #202f20aa;
+    }
+  }
+  
+  .btn, .btn-primary {
+    background-color: #1f7a1f;
+    border: none;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #3cb371;
+    }
+  }
+  
+  /* Navbar */
+  .navbar, .bg-dark {
+    background: #002200 !important;
+  }
