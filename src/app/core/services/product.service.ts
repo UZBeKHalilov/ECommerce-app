@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Product } from '../models/product.model';
 
-export interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  categoryId: number;
-}
 
 @Injectable({providedIn: 'root'})
 export class ProductService {
   private apiUrl = '/api/v1/products';
+  private apiUrlv2 = '/api/v2/products';
   
   constructor(private http: HttpClient) {}
 
@@ -23,6 +17,10 @@ export class ProductService {
       params = params.set('categoryId', categoryId.toString());
     }
     return this.http.get<Product[]>(this.apiUrl, { params });
+  }
+
+  getAllByCategoryId(categoryId: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrlv2}/${categoryId}`);
   }
 
   get(id: number): Observable<Product> {

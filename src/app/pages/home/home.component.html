@@ -1,0 +1,203 @@
+<!-- Hero Section -->
+<section class="py-12 md:py-20">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                    Support Local <span class="text-green-400">Artisans</span> & Small Businesses
+                </h1>
+                <p class="text-gray-300 text-lg mb-8">
+                    Discover unique, handcrafted products from independent creators and small businesses in your
+                    community.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a routerLink="/products"
+                        class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg transition-colors font-medium text-center">
+                        Shop Now
+                    </a>
+                    <a routerLink="/about"
+                        class="bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-lg transition-colors font-medium text-center">
+                        Our Story
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-green-500/20 to-green-700/20 rounded-2xl p-1">
+                        <img src="/assets/images/hero-marketplace.jpg" alt="Small business marketplace"
+                            class="rounded-xl w-full h-auto">
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-gray-900 rounded-lg p-4 shadow-xl">
+                        <div class="flex items-center">
+                            <div class="bg-green-500 rounded-full p-2 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white font-medium">Supporting</p>
+                                <p class="text-green-400 font-bold">50+ Local Businesses</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-12 bg-gray-900/50">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-white mb-4">Shop by Category</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">
+                Explore our curated collection of handcrafted goods from local artisans and small businesses.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <a *ngFor="let category of categories" [routerLink]="['categories' | linkify: category.name]"
+                class="bg-gray-800 hover:bg-gray-700 rounded-lg p-6 text-center transition-all hover:transform hover:-translate-y-1">
+                <div class="bg-green-500/10 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                </div>
+                <h3 class="text-white font-medium">{{ category.name }}</h3>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-12">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-white">Featured Products</h2>
+            <a routerLink="/products" class="text-green-400 hover:text-green-300 font-medium flex items-center">
+                View All
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div *ngFor="let product of products"
+                class="bg-gray-800 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                <a [routerLink]="['/product', product.id]" class="block">
+                    <img [src]="product.imageUrl" [alt]="product.name" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="text-xs text-green-400 font-medium mb-1">{{ product.category.name }}</div>
+                        <h3 class="text-white font-medium mb-2">{{ product.name }}</h3>
+                        <div class="flex justify-between items-center">
+                            <span class="text-white font-bold">${{ product.price.toFixed(2) }}</span>
+                            <div class="flex items-center">
+                                <div class="flex">
+                                    <svg *ngFor="let i of [1,2,3,4,5]" xmlns="http://www.w3.org/2000/svg"
+                                        [ngClass]="{'text-green-400': i <= product.stock}"
+                                        class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                </div>
+                                <span class="text-gray-400 text-xs ml-1">({{ product.stock }})</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Seller Banner -->
+<section class="py-12 bg-gradient-to-r from-green-900/40 to-gray-900/40 rounded-xl my-8 mx-4">
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h2 class="text-3xl font-bold text-white mb-4">Are You a Small Business Owner?</h2>
+                <p class="text-gray-300 mb-6">
+                    Join our marketplace to reach new customers and grow your business. We provide the tools and support
+                    you need to succeed.
+                </p>
+                <a routerLink="/seller/register"
+                    class="inline-block bg-white text-gray-900 hover:bg-gray-100 py-3 px-6 rounded-lg transition-colors font-medium">
+                    Become a Seller
+                </a>
+            </div>
+            <div class="md:w-1/2 md:pl-8">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-800/80 p-4 rounded-lg">
+                        <div class="text-green-400 text-2xl font-bold mb-1">0%</div>
+                        <p class="text-white">Commission for the first month</p>
+                    </div>
+                    <div class="bg-gray-800/80 p-4 rounded-lg">
+                        <div class="text-green-400 text-2xl font-bold mb-1">24/7</div>
+                        <p class="text-white">Seller support available</p>
+                    </div>
+                    <div class="bg-gray-800/80 p-4 rounded-lg">
+                        <div class="text-green-400 text-2xl font-bold mb-1">Simple</div>
+                        <p class="text-white">Easy-to-use seller dashboard</p>
+                    </div>
+                    <div class="bg-gray-800/80 p-4 rounded-lg">
+                        <div class="text-green-400 text-2xl font-bold mb-1">Fast</div>
+                        <p class="text-white">Weekly payouts to sellers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-12">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-white mb-4">What People Are Saying</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">
+                Hear from our community of buyers and sellers about their experiences with our marketplace.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div *ngFor="let testimonial of testimonials" class="bg-gray-800 rounded-lg p-6">
+                <div class="flex items-center mb-4">
+                    <img [src]="testimonial.image" [alt]="testimonial.name"
+                        class="w-12 h-12 rounded-full mr-4 object-cover">
+                    <div>
+                        <h4 class="text-white font-medium">{{ testimonial.name }}</h4>
+                        <p class="text-gray-400 text-sm">{{ testimonial.role }}</p>
+                    </div>
+                </div>
+                <p class="text-gray-300 italic">
+                    "{{ testimonial.text }}"
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="py-12 bg-gray-800 rounded-xl my-8 mx-4">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Stay Updated</h2>
+        <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
+            Subscribe to our newsletter to receive updates on new artisans, special offers, and marketplace events.
+        </p>
+        <div class="flex flex-col sm:flex-row max-w-md mx-auto">
+            <input type="email" placeholder="Your email address"
+                class="flex-grow py-3 px-4 bg-gray-700 text-white rounded-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-green-500 mb-2 sm:mb-0">
+            <button
+                class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg sm:rounded-l-none transition-colors font-medium">
+                Subscribe
+            </button>
+        </div>
+    </div>
+</section>

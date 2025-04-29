@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService, Category } from '../../products/category.service';
+import { CategoryService } from '../../core/services/category.service';
+import { Category } from '../../core/models/category.model';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({

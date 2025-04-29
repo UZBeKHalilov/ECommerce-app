@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
-import { OrderService } from './order.service';
-import { CartService, Cart } from "../cart/cart.service";
+import { OrderService } from '../core/services/order.service';
+import { CartService } from "../core/services/cart.service";
+import { Cart } from "../core/models/cart.model";
 
 @Component({
   selector: 'app-checkout',

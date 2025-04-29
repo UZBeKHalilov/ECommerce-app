@@ -1,21 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { Cart } from '../models/cart.model';
 
-export interface CartItem {
-  productId: number;
-  quantity: number;
-  product: {
-    name: string;
-    price: number;
-  }
-}
-
-export interface Cart {
-  id: number;
-  userId: string;
-  items: CartItem[];
-}
 
 @Injectable({providedIn: 'root'})
 export class CartService {

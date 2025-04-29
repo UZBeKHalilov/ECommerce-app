@@ -1,20 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface OrderItem {
-  productId: number;
-  quantity: number;
-  price: number;
-}
-
-export interface Order {
-  id: number;
-  userId: string;
-  orderDate: string;
-  total: number;
-  items: OrderItem[];
-}
+import { Order } from '../models/order.model';
 
 @Injectable({providedIn: 'root'})
 export class OrderService {

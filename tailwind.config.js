@@ -1,25 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{html,ts}",
-  ],
-  darkMode: 'class',
+  content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: 'var(--primary)',
-          dark: 'var(--primary-dark)',
-          light: 'var(--primary-light)',
-        },
-        secondary: {
-          DEFAULT: 'var(--secondary)',
-          dark: 'var(--secondary-dark)',
-          light: 'var(--secondary-light)',
-        }
-      },
-      fontFamily: {
-        sans: ['Inter var', 'sans-serif'],
+        'primary-green': '#1f7a1f',
+        'dark-green': '#002200',
+        'light-green': '#d0f0c0',
+        'card-bg': '#0a1a0a',
       },
     },
   },
