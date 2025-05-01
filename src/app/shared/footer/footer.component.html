@@ -35,7 +35,7 @@
           <h3 class="text-xl font-bold text-white mb-4">Categories</h3>
           <ul class="space-y-2">
             <li *ngFor="let category of categories">
-              <a [routerLink]="['categories' | linkify:category.name]" class="hover:text-green-400 transition-colors">{{ category.name }}</a>
+              <a [routerLink]="['category' | linkify:category.name]" class="hover:text-green-400 transition-colors">{{ category.name }}</a>
             </li>
           </ul>
         </div>

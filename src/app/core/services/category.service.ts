@@ -14,7 +14,7 @@ export class CategoryService {
   }
 
   getCategoryByName(name: string): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/name/${name}`);
+    return this.http.get<Category>(`${this.apiUrl}/by-name/${name}`);
   }
 
   create(category: {name:string; description:string}): Observable<Category> {

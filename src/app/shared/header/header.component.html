@@ -35,7 +35,7 @@
             </svg>
           </button>
           <div class="absolute left-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
-            <a *ngFor="let category of categories" [routerLink]="['categories' | linkify: category.name]" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-400">
+            <a *ngFor="let category of categories" [routerLink]="['category' | linkify: category.name]" class="block px-4 py-2 text-sm hover:bg-gray-700 hover:text-green-400">
               {{ category.name }}
             </a>
           </div>
