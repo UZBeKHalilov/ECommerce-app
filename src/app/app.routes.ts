@@ -14,6 +14,10 @@ import { ProductComponent } from './pages/product/product.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
+  {
+    path: 'categories',
+    loadComponent: () => import('./pages/categories/categories.component').then(m => m.CategoriesComponent)
+  },
   { path: 'category/:name', component: CategoryComponent, },
   { path: 'product/:id', component: ProductComponent, },
   { path: 'products', component: ProductsComponent },

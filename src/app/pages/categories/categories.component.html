@@ -1,0 +1,90 @@
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Page Header -->
+    <div class="mb-10 text-center">
+        <h1 class="text-4xl font-bold text-white mb-4">Shop by Category</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+            Explore our curated collection of products organized by category. Find exactly what you're looking for from
+            our small business marketplace.
+        </p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex justify-center items-center py-20">
+        <mat-spinner color="accent" diameter="48"></mat-spinner>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="bg-red-900/20 border border-red-500 text-red-300 px-4 py-3 rounded mb-6">
+        <p>{{ error }}</p>
+        <button mat-raised-button color="warn" (click)="loadCategories()" class="mt-4">
+            <mat-icon>refresh</mat-icon>
+            Try Again
+        </button>
+    </div>
+
+    <!-- Content when loaded -->
+    <div *ngIf="!loading && !error && categories.length > 0" class="fade-in">
+        <!-- Featured Categories -->
+        <section *ngIf="featuredCategories.length > 0" class="mb-12">
+            <h2 class="text-2xl font-bold text-white mb-6">Featured Categories</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a *ngFor="let category of featuredCategories" [routerLink]="['/category', category.name]"
+                    class="block">
+                    <mat-card
+                        class="mat-elevation-z2 h-full transition-all hover:mat-elevation-z4 hover:transform hover:-translate-y-1">
+                        <div class="h-40 w-full flex items-center justify-center rounded-t-lg"
+                            [style.background]="getCategoryColor(category.name)">
+
+                            <mat-icon class="text-white text-6xl">category</mat-icon>
+                        </div>
+                        <mat-card-content class="p-6 m-3">
+                            <h3 class="text-xl font-bold text-white mb-2 text-center">{{ category.name }}</h3>
+                            <p class="text-gray-400 line-clamp-2">{{ category.description }}</p>
+                        </mat-card-content>
+                        <mat-card-actions class="p-4 pt-0">
+                            <button mat-flat-button color="primary" class="w-full">
+                                Browse Products
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </a>
+            </div>
+        </section>
+
+        <!-- All Categories -->
+        <section>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">All Categories</h2>
+                <span class="text-gray-400">{{ categories.length }} categories</span>
+            </div>
+
+            <mat-grid-list [cols]="breakpoint" rowHeight="1:1" gutterSize="16" (window:resize)="onResize($event)">
+                <mat-grid-tile *ngFor="let category of categories">
+                    <a [routerLink]="['/category', category.name]" class="w-full h-full">
+                        <mat-card class="w-full h-full mat-elevation-z1 hover:mat-elevation-z3 transition-all">
+                            <div class="h-3/5 flex items-center justify-center"
+                                [style.background]="getCategoryColor(category.name)">
+                                <mat-icon class="text-white text-5xl">category</mat-icon>
+                            </div>
+                            <mat-card-content class="p-4">
+                                <h3 class="text-lg font-bold text-white mb-1">{{ category.name }}</h3>
+                                <p class="text-gray-400 text-sm line-clamp-2">{{ category.description }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </a>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </section>
+    </div>
+
+    <!-- No Categories -->
+    <div *ngIf="!loading && !error && categories.length === 0" class="bg-gray-800 rounded-lg p-8 text-center">
+        <mat-icon class="text-gray-600 text-6xl mb-4">category_off</mat-icon>
+        <h3 class="text-xl font-medium text-white mb-2">No Categories Found</h3>
+        <p class="text-gray-400 mb-4">There are currently no categories available.</p>
+        <button mat-raised-button color="primary" routerLink="/">
+            Back to Home
+        </button>
+    </div>
+</div>  

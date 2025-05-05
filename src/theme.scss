@@ -1,17 +1,7 @@
 
 @use '@angular/material' as mat;
+@use 'geerated_theme.scss' as generated_theme;
 
-html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}/* You can add global styles to this file, and also import other style files */
 /* Global Gradient Background */
 
 // Define custom palette
@@ -81,65 +71,82 @@ $md-accent: (
   )
 );
 
-// // Define the palettes
-// $my-primary: mat.define-palette($md-primary);
-// $my-accent: mat.define-palette($md-accent);
-// $my-warn: mat.define-palette(mat.$red-palette);
 
-// Create the theme
-// $my-theme: mat.define-dark-theme((
-//   color: (
-//     primary: $my-primary,
-//     accent: $my-accent,
-//     warn: $my-warn,
-//   ),
-//   typography: mat.define-typography-config(),
-//   density: 0,
-// ));
 
-// Apply the theme
-// @include mat.all-component-themes($my-theme);
 
 // Custom Material overrides for our dark theme
 .mat-mdc-card {
-  background-color: #1f2937;
-  color: white;
+    background-color: #1f2937;
+    color: #388e3c;
 }
 
 .mat-mdc-card-subtitle {
-  color: #9ca3af;
+    color: #9ca3af;
 }
 
 .mat-mdc-select-panel {
-  background-color: #1f2937;
+    background-color: #1f2937;
 }
 
 .mat-mdc-option {
-  color: white;
+    color: #388e3c;
 }
 
 .mat-mdc-checkbox-frame {
-  border-color: #6b7280;
+    border-color: #6b7280;
 }
 
 .mat-mdc-tab-header {
-  background-color: #1f2937;
+    background-color: #1f2937;
 }
 
 .mat-mdc-tab-label {
-  color: white;
+    color: #388e3c;
 }
 
 .mat-mdc-tab-group {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .mat-expansion-panel {
-  background-color: #1f2937;
-  color: white;
+    background-color: #1f2937;
+    color: #388e3c;
 }
 
 .mat-expansion-panel-header-title,
 .mat-expansion-panel-header-description {
-  color: white;
+    color: #388e3c;
 }
+
+
+
+html {
+    @include mat.theme((
+        color: (
+                theme-type: dark,
+                primary: generated_theme.$primary-palette,
+                tertiary: generated_theme.$tertiary-palette,
+            ),
+            typography: Roboto,
+            density: 0,
+            ));
+            
+            // Define the palettes
+            // $my-primary: mat.define-palette($md-primary);
+            // $my-accent: mat.define-palette($md-accent);
+            // $my-warn: mat.define-palette(mat.$red-palette);
+            
+            // // Create the theme
+            // $my-theme: mat.define-dark-theme((
+            //     color: (
+            //         primary: $my-primary,
+            // accent: $my-accent,
+            // warn: $my-warn,
+            // ),
+            // typography: mat.define-typography-config(),
+            // density: 0,
+            // ));
+            // @include mat.all-component-themes($my-theme);
+}
+        /* You can add global styles to this file, and also import other style files */
+        // Apply the theme

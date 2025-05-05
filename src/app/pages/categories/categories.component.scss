@@ -1,0 +1,29 @@
+// Additional custom styles if needed
+// Most styling is handled by Tailwind classes and Material components
+
+// Make the grid tiles clickable across the entire area
+mat-grid-tile {
+    cursor: pointer;
+
+    &:hover {
+        .mat-card {
+            transform: translateY(-4px);
+        }
+    }
+}
+
+mat-icon {
+    // color: #388e3c; // Custom icon color
+    // transition: transform 0.2s ease-in-out;
+    height: auto !important;
+    width: auto !important;
+}
+
+// Custom icon sizing
+.text-5xl {
+    font-size: 3rem;
+}
+
+.text-6xl {
+    font-size: 4rem;
+}
