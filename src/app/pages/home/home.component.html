@@ -51,34 +51,34 @@
 <!-- Categories Section -->
 <section class="py-12 bg-gray-900/50">
     <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-white mb-4">Shop by Category</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto">
-                Explore our curated collection of handcrafted goods from local artisans and small businesses.
-            </p>
-        </div>  
-
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 justify-center">
-            <a *ngFor="let category of categories" [routerLink]="['category' | linkify: category.name]"
-            class="bg-gray-800 hover:bg-gray-700 rounded-lg p-6 text-center transition-all hover:transform hover:-translate-y-1">
-
-            <div class="bg-green-500/10 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-400" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
-            </div>
-
-            @if(category.name.length > 15){
-                <h4 class="text-white font-medium text-center">{{category.name.substring(0,15)}}...</h4>
-            }@else{
-                <h3 class="text-white font-medium text-center">{{category.name}}</h3>
-            }
-            </a>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-white mb-4">Shop by Category</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          Explore our curated collection of handcrafted goods from local artisans and small businesses.
+        </p>
+      </div>
+  
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center">
+        <!-- Display only the first 3 or 4 categories -->
+        <div *ngFor="let category of categories | slice:0:4" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-6 text-center transition-all hover:transform hover:-translate-y-1">
+          <div class="bg-green-500/10 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <h3 class="text-white font-medium text-center">{{ category.name }}</h3>
         </div>
+      </div>
+  
+      <!-- Show All Button -->
+      <div class="text-center mt-8">
+        <a routerLink="/categories" class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg transition-colors font-medium">
+          Show All Categories
+        </a>
+      </div>
     </div>
-</section>
+  </section>
 
 <!-- Featured Products -->
 <section class="py-12">
