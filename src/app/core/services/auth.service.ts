@@ -44,6 +44,8 @@ export class AuthService {
         console.log('Loaded token:', token);
       } else {
         console.log('No token found in localStorage');
+        this._isLoggedIn$.next(false);
+        this._isAdmin$.next(false);
       }
     }
   }
@@ -96,6 +98,8 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
     this._isAdmin$.next(false);
     this._isLoggedIn$.next(false);
+    console.log('Logged out successfully!');
+    this.router.navigate(['/login']);
   }
 
   getToken(): string | null {
@@ -104,5 +108,9 @@ export class AuthService {
 
   getApiUrl(): string {
     return this.apiUrl;
+  }
+
+  getCurrentUser(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/currentUser`);
   }
 }
