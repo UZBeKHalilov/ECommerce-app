@@ -1,30 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
-interface LoginResponse {
-  token: string;
-}
+import { LoginData } from '../models/loginData.model';
+import { RegisterData } from '../models/registerData.model';
+import { LoginResponse } from '../models/loginResponse.model';
 
-interface RegisterData {
-  username: string;
-  email: string;
-  password: string;
-}
+// interface LoginResponse {
+//   token: string;
+// }
 
-interface LoginData {
-  username: string;
-  password: string;
-}
+// interface RegisterData {
+//   username: string;
+//   password: string;
+//   role: string;
+// }
 
-@Injectable({providedIn: 'root'})
+// interface LoginData {
+//   username: string;
+//   password: string;
+//   role: string;
+// }
+
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = '/api';
+  private apiUrl = '/api/User';
   private tokenKey = 'jwt-token';
   private _isAdmin$ = new BehaviorSubject<boolean>(false);
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loadToken();
   }
 
@@ -58,8 +63,21 @@ export class AuthService {
     return this._isLoggedIn$.asObservable();
   }
 
-  register(data: RegisterData): Observable<{message:string}> {
-    return this.http.post<{message:string}>(`${this.apiUrl}/register`, data);
+  register(data: RegisterData): Observable<{ message: string }> {
+    return this.http.post(`${this.apiUrl}/register`, data, { responseType: 'text' }).pipe(
+      tap((response: any) => {
+        try {
+          this.login(data as LoginData).subscribe(
+            () => {
+              console.log('Login successful after registration');
+            }
+          );
+          return response;
+        } catch {
+          throw new Error('Invalid response format');
+        }
+      })
+    );
   }
 
   login(data: LoginData): Observable<LoginResponse> {
@@ -69,6 +87,7 @@ export class AuthService {
         const payload = this.decodePayload(res.token);
         this._isAdmin$.next(payload?.role === 'Admin');
         this._isLoggedIn$.next(true);
+        this.router.navigate(['/'])
       })
     );
   }

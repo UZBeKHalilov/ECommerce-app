@@ -1,0 +1,160 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-green-500">Your Orders</h1>
+    
+    <!-- Loading state -->
+    @if (isLoading) {
+      <div class="flex justify-center items-center h-64">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+      </div>
+    }
+    
+    <!-- Error state -->
+    @if (error) {
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <p>{{ error }}</p>
+        <button 
+          (click)="loadOrders()" 
+          class="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+        >
+          Try Again
+        </button>
+      </div>
+    }
+    
+    <!-- No orders -->
+    @if (!isLoading && !error && orders.length === 0) {
+      <div class="text-center py-12">
+        <h2 class="text-2xl font-semibold mb-4">You haven't placed any orders yet</h2>
+        <p class="text-gray-600 mb-6">Start shopping to see your orders here.</p>
+        <a 
+          routerLink="/" 
+          class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md font-medium"
+        >
+          Browse Products
+        </a>
+      </div>
+    }
+    
+    <!-- Orders list -->
+    @if (!isLoading && !error && orders.length > 0) {
+      <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden">
+        <div class="p-6">
+          <h2 class="text-xl font-semibold mb-6 text-green-400">Order History</h2>
+          
+          <div class="overflow-x-auto">
+            <table class="min-w-full">
+              <thead>
+                <tr class="border-b border-gray-800">
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-400">Order ID</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-400">Date</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-400">Total</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-400">Status</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-400">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-800">
+                @for (order of orders; track order.id) {
+                  <tr class="hover:bg-gray-800">
+                    <td class="px-4 py-4 text-sm text-white">#{{ order.id }}</td>
+                    <td class="px-4 py-4 text-sm text-white">{{ formatDate(order.orderDate) }}</td>
+                    <td class="px-4 py-4 text-sm text-white">${{ order.total.toFixed(2) }}</td>
+                    <td class="px-4 py-4 text-sm">
+                      <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="getStatusClass(order.status)">
+                        {{ order.status }}
+                      </span>
+                    </td>
+                    <td class="px-4 py-4 text-sm">
+                      <button 
+                        (click)="viewOrderDetails(order)"
+                        class="text-green-400 hover:text-green-300"
+                      >
+                        View Details
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    }
+    
+    <!-- Order details modal -->
+    @if (selectedOrder) {
+      <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-gray-900 rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-xl font-semibold text-green-400">Order #{{ selectedOrder.id }}</h2>
+              <button 
+                (click)="closeOrderDetails()"
+                class="text-gray-400 hover:text-white"
+              >
+                &times;
+              </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <h3 class="text-sm font-medium text-gray-400 mb-2">Order Information</h3>
+                <p class="text-white">Date: {{ formatDate(selectedOrder.orderDate) }}</p>
+                <p class="text-white">Status: 
+                  <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="getStatusClass(selectedOrder.status)">
+                    {{ selectedOrder.status }}
+                  </span>
+                </p>
+              </div>
+              
+              <div>
+                <h3 class="text-sm font-medium text-gray-400 mb-2">Shipping Address</h3>
+                <!-- <p class="text-white">{{ selectedOrder.shippingAddress?.name }}</p>
+                <p class="text-white">{{ selectedOrder.shippingAddress?.street }}</p>
+                <p class="text-white">{{ selectedOrder.shippingAddress?.city }}, {{ selectedOrder.shippingAddress?.state }} {{ selectedOrder.shippingAddress?.zip }}</p> -->
+              </div>
+            </div>
+            
+            <h3 class="text-sm font-medium text-gray-400 mb-2">Order Items</h3>
+            <div class="divide-y divide-gray-800">
+              @for (item of selectedOrder.items; track item.product.id) {
+                <div class="py-4 flex items-start">
+                  <img 
+                    [src]="item.product.imageUrl" 
+                    [alt]="item.product.name"
+                    class="w-16 h-16 object-cover rounded mr-4"
+                  >
+                  
+                  <div class="flex-grow">
+                    <h4 class="font-medium text-white">{{ item.product.name }}</h4>
+                    <p class="text-sm text-gray-400">Qty: {{ item.quantity }}</p>
+                  </div>
+                  
+                  <div class="text-green-400">${{ (item.product.price * item.quantity).toFixed(2) }}</div>
+                </div>
+              }
+            </div>
+            
+            <div class="mt-6 border-t border-gray-800 pt-4">
+              <div class="flex justify-between text-gray-400">
+                <span>Subtotal</span>
+                <!-- <span>${{ selectedOrder.subtotal.toFixed(2) }}</span> -->
+              </div>
+              <div class="flex justify-between text-gray-400 mt-2">
+                <span>Tax</span>
+                <!-- <span>${{ selectedOrder.tax.toFixed(2) }}</span> -->
+              </div>
+              <div class="flex justify-between text-gray-400 mt-2">
+                <span>Shipping</span>
+                <!-- <span>${{ selectedOrder.shipping.toFixed(2) }}</span> -->
+              </div>
+              <div class="flex justify-between font-semibold text-green-400 mt-4">
+                <span>Total</span>
+                <span>${{ selectedOrder.total.toFixed(2) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  
