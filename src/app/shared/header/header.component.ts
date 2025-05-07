@@ -7,12 +7,13 @@ import { Category } from '../../core/models/category.model';
 import { LinkifyPipe } from '../../core/pipes/linkify.pipe';
 import { AuthService } from '../../core/services/auth.service';
 import { MaterialModule } from '../../material.module';
+import { AsyncPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, LinkifyPipe, MaterialModule],
+  imports: [CommonModule, MaterialModule, AsyncPipe],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

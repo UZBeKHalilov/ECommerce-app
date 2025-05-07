@@ -129,4 +129,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
       })
     }, 500) // Small delay to ensure DOM is ready
   }
+
+  
 }

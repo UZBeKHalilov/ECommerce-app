@@ -13,7 +13,7 @@
           class="py-2 px-4 font-medium text-sm focus:outline-none"
           [ngClass]="activeTab === 'login' ? 'text-green-500 border-b-2 border-green-500' : 'text-gray-400 hover:text-green-400'"
         >
-          Sign In
+          Log In
         </button>
         <button 
           (click)="setActiveTab('register')" 
@@ -100,7 +100,7 @@
             </div>
           </div>
   
-          <div class="flex items-center justify-between">
+          <!-- <div class="flex items-center justify-between">
             <div class="flex items-center">
               <input 
                 id="remember-me" 
@@ -118,7 +118,7 @@
                 Forgot your password?
               </a>
             </div>
-          </div>
+          </div> -->
   
           <div>
             <button 
@@ -135,7 +135,7 @@
                 </span>
                 Signing in...
               } @else {
-                Sign in
+                Log In
               }
             </button>
           </div>
@@ -257,7 +257,7 @@
             </div>
           </div>
   
-          <div class="flex items-center">
+          <!-- <div class="flex items-center">
             <input 
               id="agree-terms" 
               formControlName="agreeToTerms" 
@@ -272,7 +272,7 @@
             <p class="mt-1 text-sm text-red-500">
               You must agree to the terms and conditions
             </p>
-          }
+          } -->
   
           <div>
             <button 
@@ -301,7 +301,7 @@
               (click)="setActiveTab('login')" 
               class="font-medium text-green-500 hover:text-green-400 ml-1"
             >
-              Sign in
+              Log In
             </button>
           </div>
         </form>
