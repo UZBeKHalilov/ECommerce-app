@@ -78,8 +78,8 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     if (product) {
       // This would call your cart service
       console.log('Adding to cart:', product);
-      // Example: this.cartService.addToCart(this.product, this.quantity);
-      
+      this.cartService.addToCart(product, 1);
+
       // Show success message
       const successMessage = document.getElementById('success-message');
       if (successMessage) {

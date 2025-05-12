@@ -6,6 +6,8 @@ import { AuthService } from "../../core/services/auth.service"
 // import { LoginResponse } from "../../core/models/loginResponse.model"
 import { RegisterData } from "../../core/models/registerData.model"
 import { LoginData } from "../../core/models/loginData.model"
+import { AsyncPipe } from "@angular/common"
+// import { SocialAuthService, GoogleLoginProvider, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: "app-auth",
@@ -21,11 +23,18 @@ export class AuthComponent {
   isLoading = false
   errorMessage: string | null = null
   successMessage: string | null = null
+  // user: SocialUser | null = null
 
   private fb = inject(FormBuilder)
   private authService = inject(AuthService)
 
-  constructor() {
+  constructor( 
+    // private socialAuthService: SocialAuthService
+  ) {
+    // this.socialAuthService.authState.subscribe((user) => {
+    //   this.user = user;
+    // });
+
     this.loginForm = this.fb.group({
       username: ["", [Validators.required, Validators.minLength(6)]],
       password: ["", [Validators.required, Validators.minLength(6)]],
@@ -42,6 +51,15 @@ export class AuthComponent {
       { validators: this.passwordMatchValidator },
     )
   }
+
+  onGoogleLogin(): void {
+    this.errorMessage = "Google login is not implemented yet.";
+    // this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  // signOut(): void {
+  //   this.socialAuthService.signOut();
+  // }
 
   passwordMatchValidator(form: FormGroup) {
     const password = form.get("password")?.value

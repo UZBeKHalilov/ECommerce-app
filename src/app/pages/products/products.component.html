@@ -23,7 +23,7 @@
   
   <!-- Products by category -->
   @if (!isLoading && !error) {
-    @for (category of categories; track trackByCategory; let i = $index) {
+    @for (category of categories; track trackByCategory(i, category); let i = $index) {
       @if (getProductsForCategory(category.id).length > 0) {
         <section class="mb-12">
           <div class="flex justify-between items-center mb-4">
@@ -50,7 +50,7 @@
               class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide category-scroll"
               [id]="'category-' + category.id"
             >
-              @for (product of getProductsForCategory(category.id); track trackByProduct) {
+              @for (product of getProductsForCategory(category.id); track trackByProduct(i, product); let i = $index) {
                 <div class="flex-shrink-0 w-64">
                   <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
                     <a [routerLink]="['/product', product.id]">
@@ -65,7 +65,7 @@
                       <a [routerLink]="['/product', product.id]" class="block">
                         <h3 class="font-medium text-white mb-1 hover:text-green-400">{{ product.name }}</h3>
                       </a>
-                      <p class="text-sm text-gray-400 mb-2">{{ product.description | slice:0:60 }}...</p>
+                      <p class="text-sm text-gray-400 mb-2">{{ product.description | slice:0:60 }}@if(product.description.length > 60){...}</p>
                       <div class="text-green-400 font-semibold">${{ product.price.toFixed(2) }}</div>
                     </div>
                     

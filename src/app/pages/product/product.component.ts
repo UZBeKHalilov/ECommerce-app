@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../core/models/product.model';
 import { ProductService } from '../../core/services/product.service';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -25,7 +26,9 @@ export class ProductComponent implements OnInit {
   
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService,
+    private cdr: ChangeDetectorRef
   ) {}
   
   ngOnInit(): void {
@@ -49,11 +52,14 @@ export class ProductComponent implements OnInit {
         this.productImages = [
           product.imageUrl,
           // Add placeholder images for demo purposes
-          `/assets/images/products/placeholder-1.jpg`,
-          `/assets/images/products/placeholder-2.jpg`
+          // `/assets/images/products/placeholder-1.jpg`,
+          // `/assets/images/products/placeholder-2.jpg`
         ];
-        
         this.loadRelatedProducts(product.categoryId);
+        this.loading = false;
+
+        // Trigger change detection to update the view
+        this.cdr.detectChanges();
         this.loading = false;
       },
       error: (err) => {
@@ -71,6 +77,7 @@ export class ProductComponent implements OnInit {
         this.relatedProducts = products
           .filter(p => p.id !== this.product?.id)
           .slice(0, 4);
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading related products:', err);
@@ -93,9 +100,8 @@ export class ProductComponent implements OnInit {
   addToCart(): void {
     if (this.product) {
       // This would call your cart service
-      console.log('Adding to cart:', this.product, 'Quantity:', this.quantity);
-      // Example: this.cartService.addToCart(this.product, this.quantity);
-      
+      this.cartService.addToCart(this.product, this.quantity);
+
       // Show success message
       const successMessage = document.getElementById('success-message');
       if (successMessage) {
