@@ -1,146 +1,118 @@
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8 text-green-500">Your Cart</h1>
-    
-    <!-- Loading state -->
-    @if (isLoading) {
-      <div class="flex justify-center items-center h-64">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
-      </div>
-    }
-    
-    <!-- Error state -->
-    @if (error) {
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        <p>{{ error }}</p>
-        <button 
-          (click)="loadCart()" 
-          class="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-        >
-          Try Again
-        </button>
-      </div>
-    }
-    
-    <!-- Empty cart -->
-    @if (!isLoading && !error && cartItems.length === 0) {
-      <div class="text-center py-12">
-        <h2 class="text-2xl font-semibold mb-4">Your cart is empty</h2>
-        <p class="text-gray-600 mb-6">Looks like you haven't added any products to your cart yet.</p>
-        <a 
-          routerLink="/" 
-          class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md font-medium"
-        >
-          Continue Shopping
-        </a>
-      </div>
-    }
-    
-    <!-- Cart with items -->
-    @if (!isLoading && !error && cartItems.length > 0) {
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Cart items -->
-        <div class="lg:col-span-2">
-          <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden">
-            <div class="p-6">
-              <h2 class="text-xl font-semibold mb-4 text-green-400">Cart Items</h2>
-              
-              <div class="divide-y divide-gray-800">
-                @for (item of cartItems; track item.product.id) {
-                  <div class="py-4 flex flex-col sm:flex-row items-start sm:items-center">
-                    <img 
-                      [src]="item.product.imageUrl" 
-                      [alt]="item.product.name"
-                      class="w-24 h-24 object-cover rounded mr-4 mb-4 sm:mb-0"
-                    >
-                    
-                    <div class="flex-grow">
-                      <h3 class="font-medium text-white">{{ item.product.name }}</h3>
-                      <p class="text-sm text-gray-400">{{ item.product.description | slice:0:100 }}...</p>
-                      <div class="mt-2 text-green-400">${{ item.product.price.toFixed(2) }}</div>
-                    </div>
-                    
-                    <div class="flex items-center mt-4 sm:mt-0">
-                      <div class="flex items-center border border-gray-700 rounded">
-                        <button 
-                          (click)="updateQuantity(item, item.quantity - 1)"
-                          class="px-3 py-1 text-gray-400 hover:text-white"
-                          [disabled]="item.quantity <= 1"
-                        >
-                          -
-                        </button>
-                        <input 
-                          type="number" 
-                          [(ngModel)]="item.quantity"
-                          (change)="updateQuantity(item, item.quantity)"
-                          class="w-12 text-center bg-transparent text-white border-0 focus:outline-none"
-                          min="1"
-                        >
-                        <button 
-                          (click)="updateQuantity(item, item.quantity + 1)"
-                          class="px-3 py-1 text-gray-400 hover:text-white"
-                        >
-                          +
-                        </button>
-                      </div>
-                      
-                      <button 
-                        (click)="removeItem(item.product.id)"
-                        class="ml-4 text-red-500 hover:text-red-400"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Order summary -->
-        <div class="lg:col-span-1">
-          <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden sticky top-4">
-            <div class="p-6">
-              <h2 class="text-xl font-semibold mb-4 text-green-400">Order Summary</h2>
-              
-              <div class="space-y-3 text-gray-300">
-                <div class="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>${{ subtotal.toFixed(2) }}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span>Tax</span>
-                  <span>${{ tax.toFixed(2) }}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span>Shipping</span>
-                  <span>${{ shipping.toFixed(2) }}</span>
-                </div>
-                <div class="border-t border-gray-800 pt-3 mt-3">
-                  <div class="flex justify-between font-semibold text-green-400">
-                    <span>Total</span>
-                    <span>${{ total.toFixed(2) }}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <button 
-                (click)="checkout()"
-                class="w-full mt-6 bg-green-500 hover:bg-green-600 text-white py-3 rounded-md font-medium"
-              >
-                Proceed to Checkout
-              </button>
-              
-              <a 
-                routerLink="/"
-                class="block text-center mt-4 text-green-400 hover:text-green-300"
-              >
-                Continue Shopping
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    }
+  <h1 class="text-3xl font-bold mb-8 text-green-500">Your Cart</h1>
+
+  <!-- Loading state -->
+  @if (isLoading) {
+  <div class="flex justify-center items-center h-64">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
   </div>
-  
+  }
+
+  <!-- Error state -->
+  @if (error) {
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    <p>{{ error }}</p>
+    <button (click)="loadCart()" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+      Try Again
+    </button>
+  </div>
+  }
+
+  <!-- Empty cart -->
+  @if (!isLoading && !error && !cart?.items) {
+  <div class="text-center py-12">
+    <h2 class="text-2xl font-semibold mb-4">Your cart is empty</h2>
+    <p class="text-gray-600 mb-6">Looks like you haven't added any products to your cart yet.</p>
+    <a routerLink="/" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md font-medium">
+      Continue Shopping
+    </a>
+  </div>
+  }
+
+  <!-- Cart with items -->
+  @if (!isLoading && !error && (cart?.items?.length ?? 0) > 0) {
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Cart items -->
+    <div class="lg:col-span-2"> 
+      <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden">
+        <div class="p-6">
+          <h2 class="text-xl font-semibold mb-4 text-green-400">Cart Items</h2>
+
+          <div class="divide-y divide-gray-800">
+            @for (item of cart?.items; track item.product.id) {
+            <div class="py-4 flex flex-col sm:flex-row items-start sm:items-center">
+              <img [src]="item.product.imageUrl" [alt]="item.product.name"
+                class="w-24 h-24 object-cover rounded mr-4 mb-4 sm:mb-0">
+
+              <div class="flex-grow">
+                <h3 class="font-medium text-white">{{ item.product.name }}</h3>
+                <p class="text-sm text-gray-400">{{ item.product.description | slice:0:100 }}...</p>
+                <div class="mt-2 text-green-400">${{ item.product.price.toFixed(2) }}</div>
+              </div>
+
+              <div class="flex items-center mt-4 sm:mt-0">
+                <div class="flex items-center border border-gray-700 rounded">
+                  <button (click)="updateQuantity(item, item.quantity - 1)"
+                    class="px-3 py-1 text-gray-400 hover:text-white" [disabled]="item.quantity <= 1">
+                    -
+                  </button>
+                  <input type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(item, item.quantity)"
+                    class="w-12 text-center bg-transparent text-white border-0 focus:outline-none" min="1">
+                  <button (click)="updateQuantity(item, item.quantity + 1)"
+                    class="px-3 py-1 text-gray-400 hover:text-white">
+                    +
+                  </button>
+                </div>
+
+                <button (click)="removeItem(item.product.id)" class="m-4 text-red-500 hover:text-red-400 transition duration-200">
+                  Remove
+                </button>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order summary -->
+    <div class="lg:col-span-1">
+      <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden sticky top-4">
+        <div class="p-6">
+          <h2 class="text-xl font-semibold mb-4 text-green-400">Order Summary</h2>
+
+          <div class="space-y-3 text-gray-300">
+            <div class="flex justify-between">
+              <span>Subtotal</span>
+              <span>${{ subtotal.toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Tax</span>
+              <span>${{ tax.toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Shipping</span>
+              <span>${{ shipping.toFixed(2) }}</span>
+            </div>
+            <div class="border-t border-gray-800 pt-3 mt-3">
+              <div class="flex justify-between font-semibold text-green-400">
+                <span>Total</span>
+                <span>${{ total.toFixed(2) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <button (click)="checkout()"
+            class="w-full mt-6 bg-green-500 hover:bg-green-600 text-white py-3 rounded-md font-medium">
+            Proceed to Checkout
+          </button>
+
+          <a routerLink="/" class="block text-center mt-4 text-green-400 hover:text-green-300">
+            Continue Shopping
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

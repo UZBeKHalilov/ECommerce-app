@@ -6,6 +6,9 @@ import { Product } from '../../core/models/product.model';
 import { Category } from '../../core/models/category.model';
 import { ProductService } from '../../core/services/product.service';
 import { CategoryService } from '../../core/services/category.service';
+import { CartService } from '../../core/services/cart.service';
+import { CartItem } from '../../core/models/cartItem.model';
+
 
 @Component({
   selector: 'app-category',
@@ -34,7 +37,8 @@ export class CategoryComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -134,7 +138,7 @@ export class CategoryComponent implements OnInit {
   addToCart(product: Product): void {
     // This would call your cart service
     console.log('Adding to cart:', product);
-    // Example: this.cartService.addToCart(product, 1);
+    this.cartService.addToCart(product, 1);
 
     // Show a temporary success message
     const productElement = document.getElementById(`product-${product.id}`);

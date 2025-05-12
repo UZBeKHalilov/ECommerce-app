@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable, BehaviorSubject, tap, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { Cart } from '../models/cart.model';
 import { CartItem } from '../models/cartItem.model';
@@ -13,28 +13,41 @@ export class CartService {
   private _cart$ = new BehaviorSubject<Cart | null>(null);
 
   cart$ = this._cart$.asObservable();
+  cartItemsCount$ = this.cart$.pipe(
+    map(cart => (cart ? cart.items.length : 0))
+  );
 
-  constructor(private authService: AuthService, private router: Router) {
+  private authService: AuthService = inject(AuthService);
+
+  constructor(private router: Router) {
     // this.checkIsloggedIn();
+    this.loadCart();
   }
 
   private saveCartToLocalStorage(cart: Cart | null): void {
-    if (cart) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    } else {
-      localStorage.removeItem('cart');
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      if (cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+      } else {
+        console.log('Cart is null, not saving to localStorage');
+      }
     }
   }
 
   private getCartFromLocalStorage(): Cart | null {
-    const cartJson = localStorage.getItem('cart');
-    return cartJson ? JSON.parse(cartJson) : null;
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const cartJson = localStorage.getItem('cart');
+      console.log('Cart from localStorage:', cartJson);
+      return cartJson ? JSON.parse(cartJson) : null;
+    }
+    return null;
   }
 
   addToCart(product: Product, quantity: number): void {
     this.checkIsloggedIn();
     const currentCart = this._cart$.value || { items: [] };
     const existingItem = currentCart.items.find(item => item.productId === product.id);
+
 
     if (existingItem) {
       existingItem.quantity += quantity;
@@ -49,28 +62,35 @@ export class CartService {
 
     this._cart$.next(currentCart);
     this.saveCartToLocalStorage(currentCart);
+    console.log('Cart added:', currentCart);
   }
 
-  removeItem(productId: number): void {
+  removeItem(productId: number): Observable<void> {
     this.checkIsloggedIn();
     const currentCart = this._cart$.value;
 
-    if (currentCart) {
-      currentCart.items = currentCart.items.filter(item => item.productId !== productId);
-      this._cart$.next(currentCart);
-      this.saveCartToLocalStorage(currentCart);
-    }
+    return new Observable<void>(observer => {
+      if (currentCart) {
+        currentCart.items = currentCart.items.filter(item => item.productId !== productId);
+        this._cart$.next(currentCart);
+        this.saveCartToLocalStorage(currentCart);
+      }
+      observer.next();
+      observer.complete();
+    });
   }
 
   loadCart(): void {
-    this.checkIsloggedIn();
+    // this.checkIsloggedIn();
     const cart = this.getCartFromLocalStorage();
     this._cart$.next(cart);
   }
 
   removeCart(): void {
     this._cart$.next(null);
-    localStorage.removeItem('cart');
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      localStorage.removeItem('cart');
+    }
   }
 
   checkIsloggedIn(): void {
@@ -85,5 +105,28 @@ export class CartService {
         });
       }
     });
+  }
+
+  updateQuantity(productId: number, quantity: number): Observable<void> {
+    this.checkIsloggedIn();
+    const currentCart = this._cart$.value;
+
+    return new Observable<void>(observer => {
+      if (currentCart) {
+        const item = currentCart.items.find(item => item.productId === productId);
+        if (item) {
+          item.quantity = quantity;
+          this._cart$.next(currentCart);
+          this.saveCartToLocalStorage(currentCart);
+        }
+      }
+      observer.next();
+      observer.complete();
+    });
+  }
+
+  getCart(): Observable<Cart | null> {
+    this.checkIsloggedIn();
+    return this._cart$.asObservable();
   }
 }

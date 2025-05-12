@@ -38,6 +38,12 @@ export class ProductService {
     return this.fixProductsImageUrl(this.http.get<Product[]>(this.apiUrl, { params }));
   }
 
+  getAllProductNames(): Observable<string[]> {
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      map(products => products.map(product => product.name))
+    );
+  }
+
   getAllByCategoryId(categoryId: number): Observable<Product[]> {
 
     return this.fixProductsImageUrl(this.http.get<Product[]>(`${this.apiUrlv2}/${categoryId}`));

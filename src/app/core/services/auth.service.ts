@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+
+import { CartService } from './cart.service';
 
 import { LoginData } from '../models/loginData.model';
 import { RegisterData } from '../models/registerData.model';
@@ -29,9 +31,16 @@ export class AuthService {
   private tokenKey = 'jwt-token';
   private _isAdmin$ = new BehaviorSubject<boolean>(false);
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
-  constructor(private http: HttpClient, private router: Router) {
+
+  constructor(private http: HttpClient, private router: Router, private injector: Injector) {
     this.loadToken();
   }
+
+  private get cartService(): CartService {
+    return this.injector.get(CartService);
+  }
+
+
 
   private loadToken() {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
@@ -98,6 +107,7 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
     this._isAdmin$.next(false);
     this._isLoggedIn$.next(false);
+    this.cartService.removeCart();
     console.log('Logged out successfully!');
     this.router.navigate(['/login']);
   }
