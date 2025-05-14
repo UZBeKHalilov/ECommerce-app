@@ -22,10 +22,6 @@ export const routes: Routes = [
     path: "profile",
     loadComponent: () => import("./pages/profile/profile.component").then((m) => m.ProfileComponent),
   },
-  {
-    path: "cart",
-    loadComponent: () => import("./pages/cart/cart.component").then((m) => m.CartComponent),
-  },
   { path: 'orders', component: OrdersComponent },
   { path: 'category/:name', component: CategoryComponent, },
   { path: 'product/:id', component: ProductComponent, },

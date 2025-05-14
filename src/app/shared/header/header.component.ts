@@ -32,7 +32,7 @@ export class HeaderComponent {
   // categories: Category[] = [];
   products: Product[] = [];
   searchText: string = '';
-  isSearchBarVisible: boolean = false;
+  isSearching: boolean = false;
 
   constructor(private authService: AuthService, private cartService: CartService, private productService: ProductService) {
     this.cartItemsCount$ = this.cartService.cartItemsCount$;
@@ -75,5 +75,13 @@ export class HeaderComponent {
     if (this.isUserMenuOpen) {
       this.isMenuOpen = false;
     }
+  }
+
+  onSearchbarFocus(): void {
+    this.isSearching = true;
+  }
+
+  onSearchbarBlur(): void {
+    this.isSearching = false;
   }
 }
