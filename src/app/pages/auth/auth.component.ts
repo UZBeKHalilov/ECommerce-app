@@ -46,7 +46,7 @@ export class AuthComponent {
         username: ["", [Validators.required, Validators.minLength(6)]],
         password: ["", [Validators.required, Validators.minLength(6)]],
         confirmPassword: ["", Validators.required],
-        agreeToTerms: [false, Validators.requiredTrue],
+        agreeToTerms: [false],
       },
       { validators: this.passwordMatchValidator },
     )
@@ -107,8 +107,10 @@ export class AuthComponent {
   onRegisterSubmit(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched()
+      this.errorMessage = "Please fill out all required fields correctly."
       return
     }
+    console.log("Register form submitted:", this.registerForm.value)
 
     this.isLoading = true
     this.errorMessage = null

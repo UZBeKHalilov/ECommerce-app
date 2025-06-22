@@ -3,7 +3,7 @@ import { Product } from './product.model';
 
 export interface OrderItem {
     productId: number;
-    product: Product;
+    product?: Product;
     quantity: number;
-    price: number;
+    price?: number;
   }

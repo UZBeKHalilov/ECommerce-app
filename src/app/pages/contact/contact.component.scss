@@ -1,0 +1,13 @@
+// Additional custom styles if needed
+// Most styling is handled by Tailwind classes
+
+// Focus styles for form elements
+input:focus, textarea:focus, select:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+// Smooth transitions for social media icons
+a {
+  transition: all 0.3s ease;
+}

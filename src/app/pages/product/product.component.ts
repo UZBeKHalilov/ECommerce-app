@@ -30,6 +30,66 @@ export class ProductComponent implements OnInit {
     private cartService: CartService,
     private cdr: ChangeDetectorRef
   ) {}
+
+  /*
+  
+        public static string filterSentence(string s)
+        {
+            string sentence = s;
+
+            string[] words = sentence.Split(' ');
+            string[] sortedWords = new string[words.Length];
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+
+                int digitIndex = -1;
+                for (int j = 0; j < word.Length; j++)
+                {
+                    if (char.IsDigit(word[j]))
+                    {
+                        digitIndex = j;
+                        break;
+                    }
+                }
+
+                if (digitIndex != -1)
+                {
+                    int position = word[digitIndex] - '0' - 1;
+                    word = word.Remove(digitIndex, 1);
+                    sortedWords[position] = word;
+                }
+            }
+
+            string result = string.Join(" ", sortedWords);
+            
+
+            return result;
+        }
+
+        public static string reverseWordPosition(string s)
+        {
+
+            string[] words = s.Split(' ');
+            string[] reversedWords = new string[words.Length];
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i] == " " || words[i] == "")
+                {
+                    continue;
+                }
+
+                
+                reversedWords[i] = words[words.Length - 1 - i];
+            }
+
+            string[] filteredWords = reversedWords.Where(word => !string.IsNullOrWhiteSpace(word)).ToArray();
+
+            string result = string.Join(" ", filteredWords);
+            return result;
+        }
+  */
   
   ngOnInit(): void {
     this.route.params.subscribe(params => {

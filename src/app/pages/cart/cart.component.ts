@@ -5,7 +5,9 @@ import { RouterModule } from "@angular/router"
 import { CartService } from "../../core/services/cart.service"
 import { Cart } from "../../core/models/cart.model"
 import { CartItem } from "../../core/models/cartItem.model"
-
+import { OrderService } from "../../core/services/order.service"
+import { Order } from "../../core/models/order.model"
+import { routes } from "../../app.routes"
 @Component({
   selector: "app-cart",
   standalone: true,
@@ -23,6 +25,7 @@ export class CartComponent implements OnInit {
   error: string | null = null
 
   private cartService = inject(CartService)
+  private orderService = inject(OrderService)
 
   ngOnInit(): void {
     this.loadCart()
@@ -80,8 +83,28 @@ export class CartComponent implements OnInit {
 //   }
 
   checkout(): void {
-    // Navigate to checkout or process order
     console.log("Proceeding to checkout...")
-    // Implement checkout logic or navigation
+    if (this.cart) {
+      this.cartService.convertToOrder().subscribe({
+        next: (order) => {
+          if (order) {
+            this.orderService.createOrder(order).subscribe({
+              next: (createdOrder) => {
+                console.log("Order created successfully:", createdOrder)
+                window.location.href = "/orders"
+              },
+              error: (err) => {
+                console.error("Error creating order:", err)
+              }
+            })
+          } else {
+            console.error("Failed to convert cart to order.")
+          }
+        },
+        error: (err) => {
+          console.error("Error converting cart to order:", err)
+        }
+      })
+    }
   }
 }

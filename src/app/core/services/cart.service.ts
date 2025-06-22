@@ -6,6 +6,8 @@ import { CartItem } from '../models/cartItem.model';
 import { Product } from '../models/product.model';
 import { AuthService } from './auth.service';
 import { routes } from '../../app.routes';
+import { Order } from '../models/order.model';
+import { OrderItem as items } from '../models/orderItem.model';
 
 
 @Injectable({ providedIn: 'root' })
@@ -93,7 +95,7 @@ export class CartService {
     }
   }
 
-  checkIsloggedIn(): void {
+  private checkIsloggedIn(): void {
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       if (!isLoggedIn) {
         console.log('User is not logged in. Clearing cart.');
@@ -128,5 +130,23 @@ export class CartService {
   getCart(): Observable<Cart | null> {
     this.checkIsloggedIn();
     return this._cart$.asObservable();
+  }
+
+  convertToOrder(): Observable<Order | null> {
+    this.checkIsloggedIn();
+    const currentCart = this._cart$.value;
+
+    return new Observable<Order | null>(observer => {
+      if (currentCart) {
+        const order: Order = {
+          orderItems: currentCart.items.map(item => ({
+            productId: item.productId,
+            quantity: item.quantity,
+          }))
+        };
+        observer.next(order);
+        observer.complete();  
+      }
+    });    
   }
 }

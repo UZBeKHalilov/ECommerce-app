@@ -1,10 +1,9 @@
-import { OrderItem } from './orderItem.model';
+import { OrderItem as OrderItems } from './orderItem.model';
 
 export interface Order {
-    id: number;
-    userId: string;
-    orderDate: string;
-    total: number;
-    status: string;
-    items: OrderItem[];
+    id?: number;
+    orderDate?: Date;
+    total?: number;
+    paymentStatus?: string;
+    orderItems: OrderItems[];
   }

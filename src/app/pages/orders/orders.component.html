@@ -56,11 +56,11 @@
                 @for (order of orders; track order.id) {
                   <tr class="hover:bg-gray-800">
                     <td class="px-4 py-4 text-sm text-white">#{{ order.id }}</td>
-                    <td class="px-4 py-4 text-sm text-white">{{ formatDate(order.orderDate) }}</td>
-                    <td class="px-4 py-4 text-sm text-white">${{ order.total.toFixed(2) }}</td>
+                    <td class="px-4 py-4 text-sm text-white">{{ order.orderDate ? formatDate(order.orderDate.toISOString()) : '' }}</td>
+                    <td class="px-4 py-4 text-sm text-white">${{ order.total?.toFixed(2) }}</td>
                     <td class="px-4 py-4 text-sm">
-                      <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="getStatusClass(order.status)">
-                        {{ order.status }}
+                      <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="getStatusClass(order.paymentStatus ? order.paymentStatus : 'Pending')">
+                        {{ order.paymentStatus }}
                       </span>
                     </td>
                     <td class="px-4 py-4 text-sm">
@@ -98,10 +98,10 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <h3 class="text-sm font-medium text-gray-400 mb-2">Order Information</h3>
-                <p class="text-white">Date: {{ formatDate(selectedOrder.orderDate) }}</p>
+                <p class="text-white">Date: {{ selectedOrder.orderDate ? formatDate(selectedOrder.orderDate.toISOString()) : '' }}</p>
                 <p class="text-white">Status: 
-                  <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="getStatusClass(selectedOrder.status)">
-                    {{ selectedOrder.status }}
+                  <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="getStatusClass(selectedOrder.paymentStatus ? selectedOrder.paymentStatus : 'Pending')">
+                    {{ selectedOrder.paymentStatus }}
                   </span>
                 </p>
               </div>
@@ -116,20 +116,20 @@
             
             <h3 class="text-sm font-medium text-gray-400 mb-2">Order Items</h3>
             <div class="divide-y divide-gray-800">
-              @for (item of selectedOrder.items; track item.product.id) {
+              @for (item of selectedOrder.orderItems; track item.product) {
                 <div class="py-4 flex items-start">
                   <img 
-                    [src]="item.product.imageUrl" 
-                    [alt]="item.product.name"
+                    [src]="item.product?.imageUrl" 
+                    [alt]="item.product?.name"
                     class="w-16 h-16 object-cover rounded mr-4"
                   >
                   
                   <div class="flex-grow">
-                    <h4 class="font-medium text-white">{{ item.product.name }}</h4>
+                    <h4 class="font-medium text-white">{{ item.product?.name }}</h4>
                     <p class="text-sm text-gray-400">Qty: {{ item.quantity }}</p>
                   </div>
                   
-                  <div class="text-green-400">${{ (item.product.price * item.quantity).toFixed(2) }}</div>
+                  <div class="text-green-400">${{ (item.product?.price ? 0 * item.quantity : 0).toFixed(2) }}</div>
                 </div>
               }
             </div>
@@ -149,7 +149,7 @@
               </div>
               <div class="flex justify-between font-semibold text-green-400 mt-4">
                 <span>Total</span>
-                <span>${{ selectedOrder.total.toFixed(2) }}</span>
+                <span>${{ selectedOrder.total?.toFixed(2) }}</span>
               </div>
             </div>
           </div>

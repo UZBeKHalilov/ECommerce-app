@@ -1,6 +1,6 @@
 {
     "/api": {
-      "target": "https://khanx.tech/",
+      "target": "https://localhost:7142/",
       "secure": false,
       "changeOrigin": true
     }

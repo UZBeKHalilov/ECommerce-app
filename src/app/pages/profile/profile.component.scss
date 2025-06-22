@@ -3,12 +3,21 @@
 
 // Focus styles for form elements
 input:focus, textarea:focus, button:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
-  }
-  
-  // Disabled input styling
-  input:disabled, input[readonly] {
-    opacity: 0.7;
-  }
-  
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+// Disabled input styling
+input:disabled, input[readonly] {
+  opacity: 0.7;
+}
+
+// Smooth transitions for tab buttons
+button {
+  transition: all 0.3s ease;
+}
+
+// Avatar circle styling
+.avatar-circle {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
